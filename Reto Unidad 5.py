@@ -94,25 +94,41 @@ def mostrar_primeras_filas(ruta): # muestra las primeras 15 filas de un archivo 
 # funcion para calcular estadisticas de una columna numerica en un archivo csv 
 def calcular_estadisticas(ruta):
     if os.path.exists(ruta): # verifica si el archivo existe de la ruta dada
-        archivo = open(ruta, "r", encoding="utf-8") 
-        lector = csv.reader(archivo) #Usa la función csv.reader() para leer el archivo CSV línea por línea y convertir cada línea en una lista (cada columna es un elemento).
-        encabezados = next(lector) # se usa "next " para leer la primera linea del archivo
+        archivo = open(ruta, "r", encoding="utf-8")
+        lector = csv.reader(archivo)
+        filas = list(lector)
+        archivo.close()
+
+        if not filas:
+            print("Archivo CSV vacío.")
+            return
+
+        encabezados = filas[0]
 
         print("\nColumnas disponibles:")
-        for i in range(len(encabezados)): # se usa este bucle for para mostrar las columnas disponibles en el archivo csv
+        for i in range(len(encabezados)): # muestra las columnas disponibles
             print(i, "-", encabezados[i])
 
-        col = int(input("Seleccione el número de columna: ")) # Pide al usuario que escriba el número de la columna que desea analizar, y lo convierte a número entero (int).
+        try:
+            col = int(input("Seleccione el número de columna: "))
+        except:
+            print("Entrada inválida.")
+            return
 
         datos = []
-        for fila in lector:
-            try:
-                valor = float(fila[col]) # intenta convertir el valor de la columna seleccionada con "fila" en un número decimal (float).
-                datos.append(valor) # si la conversión es exitosa, agrega el valor a la lista "datos"
-            except:
-                pass
-
-        archivo.close()
+        for fila in filas[1:]:
+            if col < len(fila):
+                valor = fila[col].strip()
+                v_normalizado = valor.replace(',', '.')
+                # permitir un signo negativo y un solo punto decimal
+                tmp = v_normalizado
+                if tmp.startswith('-'):
+                    tmp = tmp[1:]
+                if tmp and tmp.count('.') <= 1 and tmp.replace('.', '', 1).isdigit():
+                    try:
+                        datos.append(float(v_normalizado))
+                    except:
+                        pass
 
         if len(datos) > 0:
             promedio = sum(datos) / len(datos)
@@ -144,11 +160,18 @@ def graficar_columna(ruta):
 
         datos = []
         for fila in lector: # se recorre cada fila del archivo csv tratando de convertir el valor de la columna seleccionada en un número decimal (float).
-            try:
-                valor = float(fila[col])
-                datos.append(valor)
-            except:
-                pass
+            if col < len(fila):
+                valor = fila[col].strip()
+                v_normalizado = valor.replace(',', '.')
+                # permitir un signo negativo y un solo punto decimal
+                tmp = v_normalizado
+                if tmp.startswith('-'):
+                    tmp = tmp[1:]
+                if tmp and tmp.count('.') <= 1 and tmp.replace('.', '', 1).isdigit():
+                    try:
+                        datos.append(float(v_normalizado))
+                    except:
+                        pass
 
         archivo.close()
 
@@ -173,6 +196,7 @@ def submenu_txt(ruta):
         print("D. Volver al menú principal")
 
         opcion = input("Seleccione una opción: ")
+        opcion = opcion.upper()
 
         if opcion == "A":
             contar_palabras_y_caracteres(ruta)
@@ -195,6 +219,7 @@ def submenu_csv(ruta):
         print("D. Volver al menú principal")
 
         opcion = input("Seleccione una opción: ")
+        opcion = opcion.upper()
 
         if opcion == "A":
             mostrar_primeras_filas(ruta)
@@ -217,8 +242,9 @@ def menu_principal():
         print("D. Salir")
 
         opcion = input("Seleccione una opción: ")
+        opcion = opcion.upper()
 
-        if opcion == "1": 
+        if opcion == "A": 
             ruta = input("Ingrese la ruta del directorio: ")
             if os.path.exists(ruta):
                 archivos = os.listdir(ruta)
@@ -229,13 +255,13 @@ def menu_principal():
                         print("-", nombre)
             else:
                 print("La ruta no existe.")
-        elif opcion == "A":
+        elif opcion == "B":
             ruta = input("Ingrese el nombre completo del archivo .txt: ")
             submenu_txt(ruta)
-        elif opcion == "B":
+        elif opcion == "C":
             ruta = input("Ingrese el nombre completo del archivo .csv: ")
             submenu_csv(ruta)
-        elif opcion == "C":
+        elif opcion == "D":
             print("Saliendo del programa...")
             break
         else:
