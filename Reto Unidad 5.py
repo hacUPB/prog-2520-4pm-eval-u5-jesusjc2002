@@ -3,7 +3,11 @@ import os # funciones para interactuar con el sistema operativo, como verificar 
 import csv # lectura y escritura para el archivo csv de forma facil
 import matplotlib.pyplot as plt # esta es una libreria para poder graficar datos de manera sencilla
 
-# funcion para contar los caracteres y palabras de este archivo de texto
+
+
+
+
+# funcion para contar los caracteres y palabras de este archivo de "txt"
 def contar_palabras_y_caracteres(ruta): 
     while True:
         if os.path.exists(ruta):  # Verifica si el archivo existe
@@ -80,7 +84,17 @@ def contar_ocurrencias(ruta): # define la funcion de contar ocurrencias que ayud
     else:
         print("El archivo no existe.")
 
-# funcion para mostrar las primeras 15 filas de un archivo csv
+
+
+
+
+
+
+
+
+
+
+# funcion para mostrar las primeras 15 filas de un archivo "csv"
 def mostrar_primeras_filas(ruta): # muestra las primeras 15 filas de un archivo csv
     if os.path.exists(ruta): # verifica si la ruta existe
         archivo = open(ruta, "r", encoding="utf-8")
@@ -104,8 +118,8 @@ def calcular_estadisticas(ruta):
         filas = list(lector)
         archivo.close()
 
-        if not filas:
-            print("Archivo CSV vacío.")
+        if not filas: # verifica si el archivo esta vacio o no.
+            print("Archivo CSV")
             return
 
         encabezados = filas[0] # obtiene los encabezados de las columnas del archivo csv
@@ -114,13 +128,13 @@ def calcular_estadisticas(ruta):
         for i in range(len(encabezados)): # muestra las columnas disponibles
             print(i, "-", encabezados[i]) # imprime el indice y el nombre de cada columna
 
-        try:
+        try: # este comando es para que el usario intente ejecutar el codigo y si hay un error, el programa no se caiga
             col = int(input("Seleccione el número de columna: ")) # pide al usuario que seleccione la columna para la cual desea calcular las estadísticas
         except:
-            print("Entrada inválida.")
+            print("Entrada inválida.") 
             return
 
-        datos = [] # 
+        datos = [] 
         for fila in filas[1:]: # recorre cada fila del archivo csv tratando de convertir el valor de la columna seleccionada en un número decimal (float).
             if col < len(fila): # verifica que la columna seleccionada exista en la fila actual
                 valor = fila[col].strip() # elimina espacios en blanco al inicio y al final del valor
@@ -191,6 +205,11 @@ def graficar_columna(ruta):
     else:
         print("El archivo no existe.")
 
+
+
+
+
+
 # submenú para las funciones de archivo .txt
 def submenu_txt(ruta):
     while True:
@@ -214,6 +233,10 @@ def submenu_txt(ruta):
         else:
             print("Opción no válida.")
 
+
+
+
+
 # submenú para las funciones de archivo .csv
 def submenu_csv(ruta):
     while True:
@@ -236,6 +259,11 @@ def submenu_csv(ruta):
             break
         else:
             print("Opción no válida.")
+
+
+
+
+
 
 # menú principal del programa
 def menu_principal():
