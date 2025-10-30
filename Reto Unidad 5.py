@@ -1,39 +1,44 @@
-# Se usan losmodulos que se van a usar
-import os
-import csv 
-import matplotlib.pyplot as plt
+# Se usan los modulos que se van a usar
+import os # funciones para interactuar con el sistema operativo, como verificar si un archivo o directorio existe, listar archivos en un directorio, etc.
+import csv # lectura y escritura para el archivo csv de forma facil
+import matplotlib.pyplot as plt # esta es una libreria para poder graficar datos de manera sencilla
 
 # funcion para contar los caracteres y palabras de este archivo de texto
-def contar_palabras_y_caracteres(ruta):
-    if os.path.exists(ruta):  # Verifica si el archivo existe
-        archivo = open(ruta, "r", encoding="utf-8")  # Abre el archivo en modo "r" con ese formato que permite leer caracteres especiales como tildes, eñes, etc.
-        texto = archivo.read()  # Lee el contenido
-        archivo.close()  # Cierra el archivo
+def contar_palabras_y_caracteres(ruta): 
+    while True:
+        if os.path.exists(ruta):  # Verifica si el archivo existe
+            archivo = open(ruta, "r", encoding="utf-8")  # Abre el archivo en modo "r" con ese formato que permite leer caracteres especiales como tildes, eñes, etc.
+            texto = archivo.read()  # Lee el contenido de archivo y lo guarda en la variable texto
+            archivo.close()  # Cierra el archivo
 
-        palabras = texto.split()  # Divide el texto en palabras
-        num_palabras = len(palabras) # se usa " len " para contar las palabras
-        num_caracteres = len(texto) # se usa " len " para contar los caracteres
-        sin_espacios = len(texto.replace(" ", "").replace("\n", "")) # cuenta los caracteres sin espacios ni saltos de linea
+            palabras = texto.split()  # Divide el texto en palabras
+            num_palabras = len(palabras) # se usa " len " para contar las palabras
+            num_caracteres = len(texto) # se usa " len " para contar los caracteres osea una letra, numero, simbolo 
+            sin_espacios = len(texto.replace(" ", "").replace("\n", "")) # cuenta los caracteres sin espacios ni saltos de linea
 
-        print("\n--- RESULTADOS ---")
-        print("Número de palabras:", num_palabras)
-        print("Número de caracteres (con espacios):", num_caracteres)
-        print("Número de caracteres (sin espacios):", sin_espacios)
+            print("\n--- RESULTADOS ---")
+            print("Número de palabras:", num_palabras)
+            print("Número de caracteres (con espacios):", num_caracteres)
+            print("Número de caracteres (sin espacios):", sin_espacios)
+            opcion = input("Ingrese 'salir' para volver al submenu: ")
+            opcion = opcion.lower()
+            if opcion == "salir":
+                break
 
-        # Datos para la gráfica
-        categorias = ['Palabras', 'Caracteres', 'Sin Espacios'] #contiene los nombres que se mostrarán en el eje X (las etiquetas).
-        valores = [num_palabras, num_caracteres, sin_espacios] #contiene los números correspondientes
+            # Datos para la gráfica
+            categorias = ['Palabras', 'Caracteres', 'Sin Espacios'] #contiene los nombres que se mostrarán en el eje X (las etiquetas).
+            valores = [num_palabras, num_caracteres, sin_espacios] #contiene los números correspondientes
 
-        # Gráfica de barras
-        plt.bar(categorias, valores) # se usa el comando "plt.bar" para crear la grafica de barras
-        # Agregar título y etiquetas
-        plt.title("Conteo de texto")
-        plt.xlabel("Categorías")
-        plt.ylabel("Valores")
-        plt.show() # Mostrar la gráfica
+            # Gráfica de barras
+            plt.bar(categorias, valores) # se usa el comando "plt.bar" para crear la grafica de barras
+            # Agregar título y etiquetas
+            plt.title("Conteo de texto")
+            plt.xlabel("Categorías")
+            plt.ylabel("Valores")
+            plt.show() # Mostrar la gráfica
 
-    else: # si no existe la ruta
-        print("El archivo no existe.") # Si el archivo no se encuentra (la condición del if no se cumple), se imprime un mensaje de error.
+        else: # si no existe la ruta
+            print("El archivo no existe.") # Si el archivo no se encuentra (la condición del if no se cumple), se imprime un mensaje de error.
 
 
 def reemplazar_palabra(ruta): # funcionn para reemplazar palabras de este archivo de texto
@@ -42,12 +47,12 @@ def reemplazar_palabra(ruta): # funcionn para reemplazar palabras de este archiv
         nueva = input("Nueva palabra: ")
 
         archivo = open(ruta, "r", encoding="utf-8") # encoding="utf-8" se usa para que el programa entienda caracteres especiales, como tildes (á, é, í) o la
-        texto = archivo.read()
-        archivo.close()
-
+        texto = archivo.read() # lee todo el contenido del archivo y lo guarda en la variable texto
+        archivo.close() 
+        
         texto_nuevo = texto.replace(palabra, nueva)
 
-        archivo = open(ruta, "w", encoding="utf-8") # se abre el archivo en modo escritura "w"  borra os cambios el contenido anteriro  para guardar los cambios nuevos.
+        archivo = open(ruta, "w", encoding="utf-8") # se abre el archivo en modo escritura "w"  borra los cambios el contenido anteriro  para guardar los cambios nuevos.
         archivo.write(texto_nuevo)
         archivo.close()
 
@@ -84,7 +89,7 @@ def mostrar_primeras_filas(ruta): # muestra las primeras 15 filas de un archivo 
         print("\nPrimeras 15 filas del archivo:\n") # Los \n agregan líneas en blanco antes y después para mejor lectura en consola.
         for fila in lector:
             print(fila)
-            contador += 1
+            contador += 1 # incrementa el contador en 1 por cada fila leída para llevar la cuenta
             if contador == 15:
                 break
         archivo.close()
@@ -103,26 +108,26 @@ def calcular_estadisticas(ruta):
             print("Archivo CSV vacío.")
             return
 
-        encabezados = filas[0]
+        encabezados = filas[0] # obtiene los encabezados de las columnas del archivo csv
 
         print("\nColumnas disponibles:")
         for i in range(len(encabezados)): # muestra las columnas disponibles
-            print(i, "-", encabezados[i])
+            print(i, "-", encabezados[i]) # imprime el indice y el nombre de cada columna
 
         try:
-            col = int(input("Seleccione el número de columna: "))
+            col = int(input("Seleccione el número de columna: ")) # pide al usuario que seleccione la columna para la cual desea calcular las estadísticas
         except:
             print("Entrada inválida.")
             return
 
-        datos = []
-        for fila in filas[1:]:
-            if col < len(fila):
-                valor = fila[col].strip()
-                v_normalizado = valor.replace(',', '.')
+        datos = [] # 
+        for fila in filas[1:]: # recorre cada fila del archivo csv tratando de convertir el valor de la columna seleccionada en un número decimal (float).
+            if col < len(fila): # verifica que la columna seleccionada exista en la fila actual
+                valor = fila[col].strip() # elimina espacios en blanco al inicio y al final del valor
+                v_normalizado = valor.replace(',', '.') # reemplaza las comas por puntos para manejar decimales
                 # permitir un signo negativo y un solo punto decimal
                 tmp = v_normalizado
-                if tmp.startswith('-'):
+                if tmp.startswith('-'): # permite numeros negativos
                     tmp = tmp[1:]
                 if tmp and tmp.count('.') <= 1 and tmp.replace('.', '', 1).isdigit():
                     try:
@@ -130,7 +135,7 @@ def calcular_estadisticas(ruta):
                     except:
                         pass
 
-        if len(datos) > 0:
+        if len(datos) > 0: # si hay datos validos en la columna seleccionada, calcula las estadisticas
             promedio = sum(datos) / len(datos)
             minimo = min(datos)
             maximo = max(datos)
@@ -153,21 +158,21 @@ def graficar_columna(ruta):
         encabezados = next(lector) # Usa la función csv.reader() para leer el archivo línea por línea y separarlo por comas (,), como una lista de listas.
 
         print("\nColumnas disponibles:")
-        for i in range(len(encabezados)):
-            print(i, "-", encabezados[i])
+        for i in range(len(encabezados)): # muestra las columnas disponibles
+            print(i, "-", encabezados[i]) # imprime el indice y el nombre de cada columna
 
         col = int(input("Seleccione el número de columna: "))
 
         datos = []
         for fila in lector: # se recorre cada fila del archivo csv tratando de convertir el valor de la columna seleccionada en un número decimal (float).
-            if col < len(fila):
+            if col < len(fila): # verifica que la columna seleccionada exista en la fila actual
                 valor = fila[col].strip()
                 v_normalizado = valor.replace(',', '.')
                 # permitir un signo negativo y un solo punto decimal
-                tmp = v_normalizado
-                if tmp.startswith('-'):
+                tmp = v_normalizado # temporal para hacer las verificaciones
+                if tmp.startswith('-'): # permite numeros negativos
                     tmp = tmp[1:]
-                if tmp and tmp.count('.') <= 1 and tmp.replace('.', '', 1).isdigit():
+                if tmp and tmp.count('.') <= 1 and tmp.replace('.', '', 1).isdigit(): # verifica que el valor sea un número válido
                     try:
                         datos.append(float(v_normalizado))
                     except:
@@ -235,7 +240,7 @@ def submenu_csv(ruta):
 # menú principal del programa
 def menu_principal():
     while True:
-        print("\n===== MENÚ PRINCIPAL =====")
+        print("\n MENÚ PRINCIPAL ")
         print("A. Listar archivos en una ruta")
         print("B. Procesar archivo de texto (.txt)")
         print("C. Procesar archivo CSV (.csv)")
