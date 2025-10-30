@@ -167,20 +167,20 @@ def graficar_columna(ruta):
 def submenu_txt(ruta):
     while True:
         print("\n--- SUBMENÚ DE ARCHIVO .TXT ---")
-        print("1. Contar palabras y caracteres")
-        print("2. Reemplazar palabra")
-        print("3. Contar ocurrencias")
-        print("4. Volver al menú principal")
+        print("A. Contar palabras y caracteres")
+        print("B. Reemplazar palabra")
+        print("C. Contar ocurrencias")
+        print("D. Volver al menú principal")
 
         opcion = input("Seleccione una opción: ")
 
-        if opcion == "1":
+        if opcion == "A":
             contar_palabras_y_caracteres(ruta)
-        elif opcion == "2":
+        elif opcion == "B":
             reemplazar_palabra(ruta)
-        elif opcion == "3":
+        elif opcion == "C":
             contar_ocurrencias(ruta)
-        elif opcion == "4":
+        elif opcion == "D":
             break
         else:
             print("Opción no válida.")
@@ -189,20 +189,20 @@ def submenu_txt(ruta):
 def submenu_csv(ruta):
     while True:
         print("\n--- SUBMENÚ DE ARCHIVO .CSV ---")
-        print("1. Mostrar primeras filas")
-        print("2. Calcular estadísticas")
-        print("3. Graficar columna")
-        print("4. Volver al menú principal")
+        print("A. Mostrar primeras filas")
+        print("B. Calcular estadísticas")
+        print("C. Graficar columna")
+        print("D. Volver al menú principal")
 
         opcion = input("Seleccione una opción: ")
 
-        if opcion == "1":
+        if opcion == "A":
             mostrar_primeras_filas(ruta)
-        elif opcion == "2":
+        elif opcion == "B":
             calcular_estadisticas(ruta)
-        elif opcion == "3":
+        elif opcion == "C":
             graficar_columna(ruta)
-        elif opcion == "4":
+        elif opcion == "D":
             break
         else:
             print("Opción no válida.")
@@ -211,10 +211,10 @@ def submenu_csv(ruta):
 def menu_principal():
     while True:
         print("\n===== MENÚ PRINCIPAL =====")
-        print("1. Listar archivos en una ruta")
-        print("2. Procesar archivo de texto (.txt)")
-        print("3. Procesar archivo CSV (.csv)")
-        print("4. Salir")
+        print("A. Listar archivos en una ruta")
+        print("B. Procesar archivo de texto (.txt)")
+        print("C. Procesar archivo CSV (.csv)")
+        print("D. Salir")
 
         opcion = input("Seleccione una opción: ")
 
@@ -229,13 +229,13 @@ def menu_principal():
                         print("-", nombre)
             else:
                 print("La ruta no existe.")
-        elif opcion == "2":
+        elif opcion == "A":
             ruta = input("Ingrese el nombre completo del archivo .txt: ")
             submenu_txt(ruta)
-        elif opcion == "3":
+        elif opcion == "B":
             ruta = input("Ingrese el nombre completo del archivo .csv: ")
             submenu_csv(ruta)
-        elif opcion == "4":
+        elif opcion == "C":
             print("Saliendo del programa...")
             break
         else:
