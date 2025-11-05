@@ -25,7 +25,7 @@ def contar_palabras_y_caracteres(ruta):
             print("Número de caracteres (con espacios):", num_caracteres)
             print("Número de caracteres (sin espacios):", sin_espacios)
             opcion = input("Ingrese 'salir' para volver al submenu: ")
-            opcion = opcion.lower()
+            opcion = opcion.lower() # convierte la opcion a minusculas para que no haya error si el usario escribe "Salir" o "SALIR"
             if opcion == "salir":
                 break
 
@@ -115,14 +115,14 @@ def calcular_estadisticas(ruta):
     if os.path.exists(ruta): # verifica si el archivo existe de la ruta dada
         archivo = open(ruta, "r", encoding="utf-8")
         lector = csv.reader(archivo)
-        filas = list(lector)
+        filas = list(lector) # convierte el lector en una lista de listas para facilitar el acceso a las filas y columnas
         archivo.close()
 
         if not filas: # verifica si el archivo esta vacio o no.
-            print("Archivo CSV")
+            print("Archivo CSV vacío.")
             return
 
-        encabezados = filas[0] # obtiene los encabezados de las columnas del archivo csv
+        encabezados = filas[0] # toma la primera fila que tiene los nombres de cada columna y los guarda en la variable encabezados
 
         print("\nColumnas disponibles:")
         for i in range(len(encabezados)): # muestra las columnas disponibles
@@ -130,11 +130,12 @@ def calcular_estadisticas(ruta):
 
         try: # este comando es para que el usario intente ejecutar el codigo y si hay un error, el programa no se caiga
             col = int(input("Seleccione el número de columna: ")) # pide al usuario que seleccione la columna para la cual desea calcular las estadísticas
-        except:
+        except: # en dado caso que el usario indiwue una palabra en vez de un numero, el programa no se caiga
             print("Entrada inválida.") 
             return
 
-        datos = [] 
+# este bloque lo que hace es leer los datos de la columna seleccionada y convertirlos en numeros decimales (float) para poder hacer los calculos estadisticos
+        datos = [] # se crea una lista vacia para guardar los datos numericos que el usario selecciono
         for fila in filas[1:]: # recorre cada fila del archivo csv tratando de convertir el valor de la columna seleccionada en un número decimal (float).
             if col < len(fila): # verifica que la columna seleccionada exista en la fila actual
                 valor = fila[col].strip() # elimina espacios en blanco al inicio y al final del valor
@@ -142,7 +143,7 @@ def calcular_estadisticas(ruta):
                 # permitir un signo negativo y un solo punto decimal
                 tmp = v_normalizado
                 if tmp.startswith('-'): # permite numeros negativos
-                    tmp = tmp[1:]
+                    tmp = tmp[1:] # se usa para quitar el signo negativo y hacer las verificaciones
                 if tmp and tmp.count('.') <= 1 and tmp.replace('.', '', 1).isdigit():
                     try:
                         datos.append(float(v_normalizado))
@@ -169,14 +170,13 @@ def graficar_columna(ruta):
     if os.path.exists(ruta):
         archivo = open(ruta, "r", encoding="utf-8")
         lector = csv.reader(archivo) # Usa la función csv.reader() para leer el archivo línea por línea y separarlo por comas (,), como una lista de listas.
-        encabezados = next(lector) # Usa la función csv.reader() para leer el archivo línea por línea y separarlo por comas (,), como una lista de listas.
+        encabezados = next(lector) # toma la primera fila del archivo csv que contiene los encabezados de las columnas
 
         print("\nColumnas disponibles:")
         for i in range(len(encabezados)): # muestra las columnas disponibles
             print(i, "-", encabezados[i]) # imprime el indice y el nombre de cada columna
 
         col = int(input("Seleccione el número de columna: "))
-
         datos = []
         for fila in lector: # se recorre cada fila del archivo csv tratando de convertir el valor de la columna seleccionada en un número decimal (float).
             if col < len(fila): # verifica que la columna seleccionada exista en la fila actual
@@ -204,6 +204,15 @@ def graficar_columna(ruta):
             print("No se pudieron graficar los datos.")
     else:
         print("El archivo no existe.")
+
+
+
+
+
+
+
+
+
 
 
 
