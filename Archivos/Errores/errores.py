@@ -9,4 +9,4 @@ finally:
     print("Puedes continuar con el programa.")
 
 
-print(entero)
+  
