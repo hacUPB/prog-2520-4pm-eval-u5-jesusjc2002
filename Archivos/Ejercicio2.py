@@ -1,0 +1,8 @@
+fichero = open("C:\Users\jesus david\OneDrive\Escritorio\\Madre miaP.txt", "r")
+linea = fichero.readline()
+print(linea)
+linea = fichero.readline()
+print(linea)
+linea = fichero.readline()
+print(linea)
+fichero.close()
